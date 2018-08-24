@@ -10,13 +10,13 @@ import lombok.Data;
 public class UserVO {
 
     private Long userId;
-    /**
-     * 用户邮箱
-     */
+
     private String email;
-    /**
-     * 用户密码
-     */
+
     private String password;
+
+    private String name;
+
+    private Integer type;
 
 }

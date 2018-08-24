@@ -21,7 +21,7 @@ public interface UserService {
      * @param id
      * @return
      */
-    UserInfoVO findUserInfo(String id);
+    UserInfoVO findUserInfo(Long id);
 
     /**
      * 通过邮箱查找用户
@@ -30,6 +30,7 @@ public interface UserService {
      */
 
     UserInfo IsExist(String email);
+
 
     /**
      * 注册
@@ -40,7 +41,13 @@ public interface UserService {
     UserInfo register(UserInfo user);
 
     /**
-     * 注销
+     * 用于更新用户信息
+     * @param user
+     * @return
+     */
+    UserInfo update(UserInfoVO user);
+    /**
+     * 注销VO
      * @param email
      */
     void writeOff(String email);

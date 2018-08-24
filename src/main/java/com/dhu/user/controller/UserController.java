@@ -21,22 +21,31 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @RequestMapping(value = "/validate/{email}/{password}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+
+    /**
+     * 用户登陆验证
+     * @param email
+     * @param password
+     * @return
+     */
+    @GetMapping(value = "/validate/{email}/{password}")
     public ResultVO<UserVO> validate(@PathVariable String email, @PathVariable String password){
         UserInfo userInfo = userService.findByEmailAndPassword(email,password);
-        if(userInfo != null){
-            //用户登陆状态
-            userInfo.setType(1);
-        }
+
         UserVO userVO = new UserVO();
+        //如果测评过为1
+        if(userInfo.getStyle()!= null){
+            userVO.setType(1);
+        }
         BeanUtils.copyProperties(userInfo,userVO);
         return ResultVOUtil.success(userVO);
     }
 
     @PostMapping("/register/")
-    public String register(UserVO userVO){
+    public String register(@RequestBody UserVO userVO){
+        System.out.println(userVO.getEmail());
         UserInfo user = userService.IsExist(userVO.getEmail());
+
         if(user.getUserId() != null){
             return "用户已存在，请勿重复注册！";
         }
@@ -47,8 +56,13 @@ public class UserController {
         }
     }
 
+    @PostMapping("/update")
+    public void update(@RequestBody UserInfoVO user) {
+        userService.update(user);
+    }
+
     @PostMapping("/userInfoForRecommend")
-    public UserInfoVO listForRecommend(@RequestBody String userId){
+    public UserInfoVO listForRecommend(@RequestParam Long userId){
         return userService.findUserInfo(userId);
     }
 

@@ -27,10 +27,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoVO findUserInfo(String id){
-        List<UserInfo> userInfoList = userInfoRepository.findByUserId(id);
+    public UserInfoVO findUserInfo(Long id){
+        UserInfo userInfo = userInfoRepository.findByUserId(id);
         UserInfoVO userInfoVO = new UserInfoVO();
-        BeanUtils.copyProperties(userInfoList.get(0),userInfoVO);
+        BeanUtils.copyProperties(userInfo,userInfoVO);
         return userInfoVO;
     }
 
@@ -44,6 +44,14 @@ public class UserServiceImpl implements UserService {
     public  UserInfo register(UserInfo user){
         return userInfoRepository.save(user);
     }
+
+    @Override
+    public UserInfo update(UserInfoVO userInfoVO){
+        UserInfo user = userInfoRepository.findByUserId(userInfoVO.getUserId());
+        BeanUtils.copyProperties(userInfoVO, user);
+        return userInfoRepository.save(user);
+    }
+
 
     @Override
     public void writeOff(String email){
