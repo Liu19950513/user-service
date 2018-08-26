@@ -45,9 +45,15 @@ public class UserServiceImpl implements UserService {
         return userInfoRepository.save(user);
     }
 
+    /**
+     * 用户测评更新用户信息
+     * @param userInfoVO
+     * @return
+     */
     @Override
     public UserInfo update(UserInfoVO userInfoVO){
         UserInfo user = userInfoRepository.findByUserId(userInfoVO.getUserId());
+        user.setType(1);
         BeanUtils.copyProperties(userInfoVO, user);
         return userInfoRepository.save(user);
     }

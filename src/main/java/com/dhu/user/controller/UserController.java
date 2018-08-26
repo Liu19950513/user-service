@@ -29,16 +29,12 @@ public class UserController {
      * @return
      */
     @GetMapping(value = "/validate/{email}/{password}")
-    public ResultVO<UserVO> validate(@PathVariable String email, @PathVariable String password){
+    public ResultVO<UserInfoVO> validate(@PathVariable String email, @PathVariable String password){
         UserInfo userInfo = userService.findByEmailAndPassword(email,password);
 
-        UserVO userVO = new UserVO();
-        //如果测评过为1
-        if(userInfo.getStyle()!= null){
-            userVO.setType(1);
-        }
-        BeanUtils.copyProperties(userInfo,userVO);
-        return ResultVOUtil.success(userVO);
+        UserInfoVO userInfoVO = new UserInfoVO();
+        BeanUtils.copyProperties(userInfo,userInfoVO);
+        return ResultVOUtil.success(userInfoVO);
     }
 
     @PostMapping("/register/")
